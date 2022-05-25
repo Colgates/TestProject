@@ -8,7 +8,9 @@
 import Combine
 import UIKit
 
-class NewsListViewController: UIViewController {
+class NewsListViewController: UIViewController, Coordinating {
+    
+    var coordinator: Coordinator?
     
     private var viewModel: NewsListViewModel
 
@@ -93,10 +95,9 @@ class NewsListViewController: UIViewController {
 extension NewsListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+
         guard let model = viewModel.createNewsListViewModelFor(indexPath) else { return }
-        let vc = NewsDetailsViewController(viewModel: model)
-        navigationController?.pushViewController(vc, animated: true)
+        coordinator?.eventOccured(with: .toNewsDetails(model: model))
     }
 }
 

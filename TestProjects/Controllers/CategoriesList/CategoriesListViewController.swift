@@ -8,7 +8,9 @@
 import Combine
 import UIKit
 
-class CategoriesListViewController: UIViewController {
+class CategoriesListViewController: UIViewController, Coordinating {
+    
+    var coordinator: Coordinator?
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -19,7 +21,7 @@ class CategoriesListViewController: UIViewController {
     
     private let viewModel: CategoriesListViewModel
     
-    init(viewModel: CategoriesListViewModel) {
+    init(_ viewModel: CategoriesListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -79,8 +81,7 @@ extension CategoriesListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if let model = viewModel.createNewsListViewModelFor(indexPath) {
-            let vc = NewsListViewController(model)
-            navigationController?.pushViewController(vc, animated: true)
+            coordinator?.eventOccured(with: .toNewsList(model: model))
         }
     }
 }

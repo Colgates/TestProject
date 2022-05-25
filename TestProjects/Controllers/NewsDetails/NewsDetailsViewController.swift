@@ -8,7 +8,9 @@
 import Combine
 import UIKit
 
-class NewsDetailsViewController: UIViewController {
+class NewsDetailsViewController: UIViewController, Coordinating {
+    
+    var coordinator: Coordinator?
     
     private let titleLabel: UILabel = {
         let label = UILabel()
